@@ -4,6 +4,7 @@ const { REST } = require("@discordjs/rest")
 const { Routes } = require("discord-api-types/v9")
 const fs = require("fs")
 const {Player} = require("discord-player")
+const { Client, GatewayIntentBits } = require('discord.js');
 
 dotenv.config()
 const TOKEN = process.env.TOKEN
@@ -12,17 +13,17 @@ const TOKEN = process.env.TOKEN
 const LOAD_SLASH = process.argv[2] == "load"
 
 const CLIENT_ID = "1022680386666500146"
-const GUILD_ID = "722535179280973884"
+const GUILD_ID = "1022684167785418854"
 
 const client = new Discord.Client({
     intents: [
-        "GUILDS",
-        "GUILD_VOICE_STATES"
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildVoiceStates
     ]
 })
 
 client.slashcommands = new Discord.Collection()
-client.player = new Player(client)(client, {
+client.player = new Player(client, {
     ytdlOptions: {
         quality: "highestaudio",
         highWaterMark: 1 << 25
@@ -33,7 +34,7 @@ let commands = []
 
 const commandFiles = fs.readdirSync("./commands").filter(file => file.endsWith(".js"))
 for (const file of commandFiles) {
-    const slashcmd = require(`./commands${file}`)
+    const slashcmd = require(`./commands/${file}`)
     client.slashcommands.set(slashcmd.data.name, slashcmd)
     if (LOAD_SLASH) commands.push(slashcmd.data.toJSON())
 }
@@ -68,7 +69,7 @@ else {
             }
 
             await interaction.deferReply()
-            await slashcmd.run({client, interaction})
+            slashcmd.run({client, interaction})
         }
         handleCommand()
     })

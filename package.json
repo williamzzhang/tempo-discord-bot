@@ -11,12 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/builders": "^1.2.0",
-    "@discordjs/opus": "^0.8.0",
+    "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/rest": "^1.1.0",
     "@discordjs/voice": "^0.11.0",
     "discord-api-types": "^0.37.10",
     "discord-player": "^5.3.1",
     "discord.js": "^14.4.0",
-    "dotenv": "^16.0.2"
+    "dotenv": "^16.0.2",
+    "ffmpeg": "^0.0.4"
   }
 }
